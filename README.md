@@ -135,8 +135,11 @@ No agents. No API keys. No vCenter. Just **pure guest-side intelligence**.
 | **KVM** | `qemu-guest-agent` |
 
 ```bash
-# RHEL 7/8/9
-sudo dnf install -y open-vm-tools qemu-guest-agent
+# RHEL 7/8/9 VMWare
+sudo dnf install -y open-vm-tools
+
+# RHEL 7/8/9 KVM
+sudo dnf install -y qemu-guest-agent
 ```
 
 ---
@@ -304,6 +307,7 @@ If it runs in production, **tell your boss**
  <em>Built with 💖 by someone who hates broken monitoring.</em><br>
   <a href="https://github.com/To3Knee/vm-probe/stargazers"><img src="https://img.shields.io/github/stars/To3Knee/vm-probe?style=social" alt="GitHub Stars"></a>
  </p>
+
 
 
 
