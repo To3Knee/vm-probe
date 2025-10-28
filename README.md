@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" alt="VM-PROBE" width="260">
+  <img src="logo.png" alt="VM-PROBE" width="260">
 </p>
 
 
@@ -312,6 +312,7 @@ If it runs in production, **tell your boss**
  <em>Built with 💖 by someone who hates broken monitoring.</em><br>
   <a href="https://github.com/To3Knee/vm-probe/stargazers"><img src="https://img.shields.io/github/stars/To3Knee/vm-probe?style=social" alt="GitHub Stars"></a>
  </p>
+
 
 
 
