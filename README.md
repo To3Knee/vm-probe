@@ -261,7 +261,7 @@ fi
 ## 📜 License
 
 Licensed under the [High Five License](LICENSE) 🙌  
-Give a high five to download, and a **super high, LOUD high five** to use **VM Probe**! 🎉 See the [LICENSE](LICENSE) file for the full, fist-bumping details!ission is hereby granted, free of charge, to any person obtaining a copy...
+Give a high five to download, and a **super high, LOUD high five** to use **VM Probe**! 🎉 See the [LICENSE](LICENSE) file for the full, fist-bumping details! Permission is hereby granted, free of charge, to any person obtaining a copy...
 
 ---
 
@@ -270,7 +270,7 @@ Give a high five to download, and a **super high, LOUD high five** to use **VM P
 If this saved you **hours of debugging**, **star it**  
 If it made you look like a **genius**, **fork it**  
 If it runs in production, **tell your boss**
-
+<a href="https://github.com/To3Knee/vm-probe/stargazers"><img src="https://img.shields.io/github/stars/To3Knee/vm-probe?style=social" alt="GitHub Stars"></a>
 ---
 
 > **"One script to rule them all."**  
@@ -283,5 +283,5 @@ If it runs in production, **tell your boss**
 ---
 <p align="center">
  <em>Built with 💖 by someone who hates broken monitoring.</em><br>
- <a href="https://github.com/To3Knee/vm-probe/stargazers"><img src="https://img.shields.io/github/stars/To3Knee/vm-probe?style=social" alt="GitHub Stars"></a>
-</p>
+ </p>
+
