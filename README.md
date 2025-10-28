@@ -1,6 +1,27 @@
 # `vm-probe.sh` – **The Ultimate VM Health Probe**  
 ### *KVM Test → VMware Prod → One Script, All Power*  
 
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background (transparent) -->
+  
+  <!-- VM Box (sleek, modern) -->
+  <rect x="50" y="60" width="100" height="80" rx="12" fill="none" stroke="#00D1FF" stroke-width="6"/>
+  <rect x="60" y="75" width="80" height="50" fill="#0A1A2F" opacity="0.8"/>
+  
+  <!-- Pulse Line (heartbeat) -->
+  <path d="M 70,100 L 80,100 L 85,90 L 90,110 L 95,85 L 100,105 L 105,95 L 110,100 L 120,100" 
+        fill="none" stroke="#00FF9D" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- High Five Hand (subtle, iconic) -->
+  <g transform="translate(130,120)">
+    <path d="M 0,0 L -5,-10 L -3,-15 L 0,-12 L 3,-15 L 5,-10 Z" fill="#FFD700"/>
+    <rect x="-8" y="-5" width="16" height="20" rx="3" fill="#FFD700"/>
+  </g>
+  
+  <!-- Glow Effect -->
+  <circle cx="100" cy="100" r="70" fill="none" stroke="#00D1FF" stroke-width="2" opacity="0.3"/>
+</svg>
+
 <p align="center">
   <!-- Version Badge -->
   <a href="https://github.com/To3Knee/vm-probe/releases">
@@ -32,7 +53,6 @@
 ---
 
 > **"Monitor like a pro — from inside the VM, with zero hypervisor access."**  
-> — *You, after deploying this script*
 
 ---
 
@@ -307,6 +327,7 @@ If it runs in production, **tell your boss**
  <em>Built with 💖 by someone who hates broken monitoring.</em><br>
   <a href="https://github.com/To3Knee/vm-probe/stargazers"><img src="https://img.shields.io/github/stars/To3Knee/vm-probe?style=social" alt="GitHub Stars"></a>
  </p>
+
 
 
 
