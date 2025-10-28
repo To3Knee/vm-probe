@@ -2,8 +2,8 @@
   <img src="logo.png" alt="VM-PROBE" width="260">
 </p>
 
-
-# `vm-probe.sh` – **The Ultimate VM Health Probe**  
+<h1 align="center">🖥️ The Ultimate VM Health Probe 🖥️</h1>
+  
 ### *KVM Test → VMware Prod → One Script, All Power*  
   
   <!-- Glow Effect -->
@@ -312,6 +312,7 @@ If it runs in production, **tell your boss**
  <em>Built with 💖 by someone who hates broken monitoring.</em><br>
   <a href="https://github.com/To3Knee/vm-probe/stargazers"><img src="https://img.shields.io/github/stars/To3Knee/vm-probe?style=social" alt="GitHub Stars"></a>
  </p>
+
 
 
 
