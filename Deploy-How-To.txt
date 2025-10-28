@@ -1,0 +1,12 @@
+# 1. Copy to production VMs
+scp /usr/local/bin/vm-probe.sh user@vmware-vm:/usr/local/bin/
+
+# 2. Make executable
+chmod 755 /usr/local/bin/vm-probe.sh
+
+# 3. Test
+/usr/local/bin/vm-probe.sh | jq .
+
+# 4. Cron every 5 min
+crontab -e
+*/5 * * * * /usr/local/bin/vm-probe.sh > /var/log/vm-probe.json 2>/dev/null
