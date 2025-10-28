@@ -27,12 +27,6 @@
   <!-- Bash -->
   <img src="https://img.shields.io/badge/Bash-5.0%2B-green?style=flat-square" alt="Bash">
 
-  <!-- Downloads -->
-  <a href="https://github.com/To3Knee/vm-probe/releases/latest">
-    <img src="https://img.shields.io/github/downloads/To3Knee/vm-probe/total?style=flat-square&color=orange" alt="Downloads">
-  </a>
-</p>
-
 ---
 
 > **"Monitor like a pro — from inside the VM, with zero hypervisor access."**  
@@ -310,6 +304,7 @@ If it runs in production, **tell your boss**
  <em>Built with 💖 by someone who hates broken monitoring.</em><br>
   <a href="https://github.com/To3Knee/vm-probe/stargazers"><img src="https://img.shields.io/github/stars/To3Knee/vm-probe?style=social" alt="GitHub Stars"></a>
  </p>
+
 
 
 
