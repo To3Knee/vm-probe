@@ -1,11 +1,33 @@
 # `vm-probe.sh` – **The Ultimate VM Health Probe**  
 ### *KVM Test → VMware Prod → One Script, All Power*  
 
-![GitHub](https://img.shields.io/github/stars/to3knee/vm-probe?style=social)  
-![License](https://img.shields.io/badge/license-High%20Five-blue)  
-![Bash](https://img.shields.io/badge/bash-5.0%2B-green)  
-![VMware](https://img.shields.io/badge/VMware-ESXi%20%7C%20vSphere-success)  
-![KVM](https://img.shields.io/badge/KVM-Unraid%20%7C%20Proxmox-blue)  
+<p align="center">
+  <!-- Version Badge -->
+  <a href="https://github.com/To3Knee/vm-probe/releases">
+    <img src="https://img.shields.io/badge/Version-v1.0.0-blue?style=flat-square" alt="Version">
+  </a>
+
+  <!-- GitHub Stars -->
+  <a href="https://github.com/To3Knee/vm-probe/stargazers">
+    <img src="https://img.shields.io/github/stars/To3Knee/vm-probe?style=flat-square&color=yellow" alt="GitHub Stars">
+  </a>
+
+  <!-- License -->
+  <a href="https://github.com/To3Knee/vm-probe/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/License-HIGH%20FIVE-yellow?style=flat-square" alt="License">
+  </a>
+
+  <!-- Platforms -->
+  <img src="https://img.shields.io/badge/Platforms-VMware%20%7C%20KVM-blue?style=flat-square" alt="Platforms">
+
+  <!-- Bash -->
+  <img src="https://img.shields.io/badge/Bash-5.0%2B-green?style=flat-square" alt="Bash">
+
+  <!-- Downloads -->
+  <a href="https://github.com/To3Knee/vm-probe/releases/latest">
+    <img src="https://img.shields.io/github/downloads/To3Knee/vm-probe/total?style=flat-square&color=orange" alt="Downloads">
+  </a>
+</p>
 
 ---
 
@@ -285,6 +307,7 @@ If it runs in production, **tell your boss**
  <em>Built with 💖 by someone who hates broken monitoring.</em><br>
   <a href="https://github.com/To3Knee/vm-probe/stargazers"><img src="https://img.shields.io/github/stars/To3Knee/vm-probe?style=social" alt="GitHub Stars"></a>
  </p>
+
 
 
 
