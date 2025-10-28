@@ -1,12 +1,12 @@
 # `vm-probe.sh` – **The Ultimate VM Health Probe**  
 ### *KVM Test → VMware Prod → One Script, All Power*  
-<p align="center">
+
 ![GitHub](https://img.shields.io/github/stars/to3knee/vm-probe?style=social)  
 ![License](https://img.shields.io/badge/license-MIT-blue)  
 ![Bash](https://img.shields.io/badge/bash-5.0%2B-green)  
 ![VMware](https://img.shields.io/badge/VMware-ESXi%20%7C%20vSphere-success)  
 ![KVM](https://img.shields.io/badge/KVM-Unraid%20%7C%20Proxmox-blue)  
-</p>
+
 ---
 
 > **"Monitor like a pro — from inside the VM, with zero hypervisor access."**  
@@ -285,5 +285,6 @@ If it runs in production, **tell your boss**
  <em>Built with 💖 by someone who hates broken monitoring.</em><br>
   <a href="https://github.com/To3Knee/vm-probe/stargazers"><img src="https://img.shields.io/github/stars/To3Knee/vm-probe?style=social" alt="GitHub Stars"></a>
  </p>
+
 
 
