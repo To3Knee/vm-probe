@@ -369,6 +369,54 @@ Import this JSON into Grafana:
 
 ---
 
+## RUN THE TEST SCRIPT 
+
+The test script is to test the system before running vm-probe.sh 
+
+---
+
+## EXPECTED OUTPUT (Example)
+
+```
+=== VM-PROBE SYSTEM COMPATIBILITY TEST ===
+Bash: GNU bash, version 5.1.16(1)-release
+Checking tools...
+  ✓ awk
+  ✓ date
+  ✓ df
+  ✓ free
+  ✓ lsblk
+  ✓ vmstat
+Hypervisor: vmware
+VMware detected. Testing tools...
+  ✓ vmware-rpctool
+  ✓ vmware-toolbox-cmd
+  ✓ vmtoolsd
+Root disk test: 200 GB
+Uptime: 12d 7h 23m 22s
+Network interfaces (non-lo):
+  ens192
+  ens224
+=== TEST COMPLETE ===
+If all tools are ✓ and values make sense → vm-probe.sh will work!
+```
+
+---
+
+## WHAT THIS TELLS YOU
+
+| Check | Must Pass |
+|------|----------|
+| `awk`, `df`, `lsblk`, etc. | All must be `✓` |
+| Hypervisor | `vmware` or `kvm` |
+| VMware tools | `vmware-rpctool`, `vmware-toolbox-cmd` |
+| KVM | `qemu-guest-agent` running |
+| Disk size | Not `unknown` |
+| Uptime | Not `0d 0h 0m 0s` |
+
+
+---
+
 ## License
 
 Licensed under the [High Five License](LICENSE) 🙌  
@@ -396,5 +444,6 @@ If it runs in production, **tell your boss**
 <p align="center">
   <em>Built with 💖 by someone who hates broken monitoring.</em>
 </p>
+
 
 
