@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="vm-pulse-logo.png" alt="VM-Probe Logo" width="260">
+  <img src="logo.png" alt="VM-Probe Logo" width="260">
 </p>
 
 <h1 align="center">🖥️ VM-Probe: The Ultimate VM Health Probe 🖥️</h1>
@@ -396,4 +396,5 @@ If it runs in production, **tell your boss**
 <p align="center">
   <em>Built with 💖 by someone who hates broken monitoring.</em>
 </p>
+
 
