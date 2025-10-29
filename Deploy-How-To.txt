@@ -1,0 +1,23 @@
+# 1. Copy to production VMs
+scp /usr/local/bin/vm-probe.sh user@vmware-vm:/usr/local/bin/
+
+# 2. Make executable
+chmod 755 /usr/local/bin/vm-probe.sh
+
+# 3. Usage Examples
+
+1. Run Manually (JSON)
+/usr/local/bin/vm-probe.sh | jq .
+
+Run Manually (XML)
+OUTPUT_FORMAT="xml" /usr/local/bin/vm-probe.sh
+
+Run Manually (TXT)
+OUTPUT_FORMAT="txt" /usr/local/bin/vm-probe.sh
+
+# 4. Cron every 5 min
+crontab -e
+*/5 * * * * /usr/local/bin/vm-probe.sh > /dev/null 2>&1
+
+
+For background running (e.g., monitoring), use `OUTPUT_MODE="file"` to write to disk—no stdout needed.
