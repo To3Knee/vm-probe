@@ -1,12 +1,9 @@
+
 <p align="center">
-  <img src="logo.png" alt="VM-PROBE" width="260">
+  <img src="vm-pulse-logo.png" alt="VM-Probe Logo" width="260">
 </p>
 
-<h1 align="center">🖥️ The Ultimate VM Health Probe 🖥️</h1>
-  
-  <!-- Glow Effect -->
-  <circle cx="100" cy="100" r="70" fill="none" stroke="#00D1FF" stroke-width="2" opacity="0.3"/>
-</svg>
+<h1 align="center">🖥️ VM-Probe: The Ultimate VM Health Probe 🖥️</h1>
 
 <p align="center">
   <!-- Version Badge -->
@@ -29,6 +26,7 @@
 
   <!-- Bash -->
   <img src="https://img.shields.io/badge/Bash-5.0%2B-green?style=flat-square" alt="Bash">
+</p>
 
 ---
 
@@ -38,9 +36,11 @@
 
 ## What Is `vm-probe.sh`?
 
-A **single, self-contained Bash script** that runs **inside any Linux VM** and reports **everything you care about** — **in one clean JSON payload**.
+A **single, self-contained Bash script** that runs **inside any Linux VM** and reports **everything you care about** — **in one clean JSON, XML, or TXT payload**.
 
 No agents. No API keys. No vCenter. Just **pure guest-side intelligence**.
+
+Built for **KVM (Unraid, Proxmox)** test labs and **VMware (ESXi, vSphere)** production — **one script, all power**.
 
 ---
 
@@ -48,20 +48,24 @@ No agents. No API keys. No vCenter. Just **pure guest-side intelligence**.
 
 | Feature | Description |
 |-------|-----------|
-| **Auto Hypervisor Detection** | Works on **KVM (Unraid, Proxmox)** and **VMware (ESXi, vSphere)** |
-| **Thin vs Provisioned Disk** | Shows **guest size** (`thin_total`) vs **actual disk size** (`provisioned_disk_size`) |
+| **Auto Hypervisor Detection** | Works on **KVM** and **VMware** — no config changes needed |
+| **Thin vs Provisioned Disk** | Shows **guest filesystem size** (`thin_total`) vs **hypervisor-provisioned size** (`provisioned_disk_size`) |
 | **Human-Readable Everything** | `8.00 GB`, `68.7%`, `1.89 kbit/s`, `12d 7h 23m 22s` |
-| **Multi-Interface Network** | All NICs, no junk |
+| **Multi-Interface Network** | All NICs monitored, clean output, no junk |
 | **CPU Ready %** | **True hypervisor contention** (VMware only) |
 | **Uptime** | Real system uptime on KVM, VMware Tools uptime on VMware |
 | **UTC Timestamp** | ISO-8601, always |
-| **Configurable Output** | `stdout`, `file`, `both` |
-| **No Overwrites** | Safe file mode with timestamped backups |
+| **Multiple Output Formats** | JSON (default), XML, TXT — choose your flavor |
+| **Configurable Output** | `stdout`, `file`, `both` — with safe timestamped backups |
+| **Prometheus Exporter** | Auto-generates `.prom` textfile for easy monitoring |
 | **Zero External Deps** | Uses only `open-vm-tools` (VMware) or `qemu-guest-agent` (KVM) |
+| **Air-Gapped Ready** | No internet, no Docker, just Bash |
 
 ---
 
-## Sample Output (KVM Production)
+## Sample Outputs (All Formats)
+
+### JSON (Default)
 
 ```json
 {
@@ -94,9 +98,70 @@ No agents. No API keys. No vCenter. Just **pure guest-side intelligence**.
 }
 ```
 
----
+### XML (For Structured Parsing)
 
-## Sample Output (VMware Production)
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<vm_health>
+  <hypervisor>kvm</hypervisor>
+  <power_state>Running</power_state>
+  <tool_state>qemu-guest-agent</tool_state>
+  <uptime>0d 0h 35m 40s</uptime>
+  <memory_allocated>0.00 GB</memory_allocated>
+  <disk>
+    <thin_total>12 GB</thin_total>
+    <used>2 GB</used>
+    <available>10 GB</available>
+    <used_percent>17</used_percent>
+    <provisioned_disk_size>60.00 GB</provisioned_disk_size>
+  </disk>
+  <ram_used>3.6%</ram_used>
+  <cpu_used>0.0%</cpu_used>
+  <cpu_ready>N/A%</cpu_ready>
+  <host>
+    <esxi_hostname>KVM Host</esxi_hostname>
+    <vcenter>N/A</vcenter>
+  </host>
+  <network>
+    <interface name="enp7s0">
+      <rx>0 bit/s</rx>
+      <tx>0 bit/s</tx>
+    </interface>
+    <interface name="enp6s0">
+      <rx>1.89 kbit/s</rx>
+      <tx>32 bit/s</tx>
+    </interface>
+  </network>
+  <timestamp>2025-10-28T19:53:50+00:00</timestamp>
+</vm_health>
+```
+
+### TXT (For Simple Logs)
+
+```
+VM Health Report
+Hypervisor: kvm
+Power State: Running
+Tool State: qemu-guest-agent
+Uptime: 0d 0h 35m 40s
+Memory Allocated: 0.00 GB
+Disk Thin Total: 12 GB
+Disk Used: 2 GB
+Disk Available: 10 GB
+Disk Used %: 17
+Disk Provisioned: 60.00 GB
+RAM Used: 3.6%
+CPU Used: 0.0%
+CPU Ready: N/A%
+ESXi Host: KVM Host
+vCenter: N/A
+Timestamp: 2025-10-28T19:53:50+00:00
+Network:
+  enp7s0: RX 0 bit/s TX 0 bit/s
+  enp6s0: RX 1.89 kbit/s TX 32 bit/s
+```
+
+### VMware Production Sample (JSON)
 
 ```json
 {
@@ -138,11 +203,15 @@ No agents. No API keys. No vCenter. Just **pure guest-side intelligence**.
 | **KVM** | `qemu-guest-agent` |
 
 ```bash
-# RHEL 7/8/9 VMWare
+# RHEL 7/8/9  VMWare
 sudo dnf install -y open-vm-tools
 
-# RHEL 7/8/9 KVM
+# RHEL 7/8/9  KVM
 sudo dnf install -y qemu-guest-agent
+
+# Enable
+sudo systemctl enable --now vmtoolsd  # VMware
+sudo systemctl enable --now qemu-guest-agent  # KVM
 ```
 
 ---
@@ -161,6 +230,7 @@ sudo chmod 755 /usr/local/bin/vm-probe.sh
 ```bash
 # === USER-CONFIGURABLE SECTION ===
 OUTPUT_MODE="stdout"           # stdout | file | both
+OUTPUT_FORMAT="json"           # json | xml | txt
 OUTPUT_FILE="/var/log/vm-probe.json"
 OVERWRITE_FILE=false           # true = overwrite | false = timestamped
 ROOT_MOUNT_POINT="/"           # e.g., /, /var
@@ -172,26 +242,42 @@ INCLUDE_LOOPBACK=false         # true = include lo
 
 ## Usage Examples
 
-### 1. **Run Once**
+### 1. Run Manually (JSON)
+
 ```bash
 /usr/local/bin/vm-probe.sh | jq .
 ```
 
-### 2. **Cron Every 5 Minutes**
+### 2. Run Manually (XML)
+
+```bash
+OUTPUT_FORMAT="xml" /usr/local/bin/vm-probe.sh
+```
+
+### 3. Run Manually (TXT)
+
+```bash
+OUTPUT_FORMAT="txt" /usr/local/bin/vm-probe.sh
+```
+
+### 4. Add to Cron (Every 5 Minutes)
+
+For background running (e.g., monitoring), use `OUTPUT_MODE="file"` to write to disk—no stdout needed.
+
 ```bash
 crontab -e
-*/5 * * * * /usr/local/bin/vm-probe.sh > /var/log/vm-probe.json 2>/dev/null
 ```
 
-### 3. **Push to Zabbix**
+```cron
+*/5 * * * * /usr/local/bin/vm-probe.sh > /dev/null 2>&1
+```
+
+This updates `/var/log/vm-probe.json` (or `.xml` / `.txt`) every 5 minutes. Use `OVERWRITE_FILE=false` for timestamped versions (e.g., `vm-probe.json_2025-10-28T12:30:00+0000`).
+
+### 5. Push to Zabbix/Prometheus
+
 ```bash
 */5 * * * * /usr/local/bin/vm-probe.sh | curl -X POST -H "Content-Type: application/json" -d @- http://zabbix/api/vm_metrics
-```
-
-### 4. **Prometheus Textfile**
-```bash
-# Add to script (see below)
-OUTPUT_MODE="prometheus" /usr/local/bin/vm-probe.sh
 ```
 
 ---
@@ -222,7 +308,7 @@ fi
 
 ## Grafana Dashboard
 
-**Import this JSON** into Grafana:
+Import this JSON into Grafana:
 
 ```json
 {
@@ -283,7 +369,7 @@ fi
 
 ---
 
-## 📜 License
+## License
 
 Licensed under the [High Five License](LICENSE) 🙌  
 Give a high five to download, and a **super high, LOUD high five** to use **VM Probe**! 🎉 See the [LICENSE](LICENSE) file for the full, fist-bumping details! Permission is hereby granted, free of charge, to any person obtaining a copy...
@@ -306,24 +392,8 @@ If it runs in production, **tell your boss**
 **Deploy. Monitor. Dominate.**
 
 ---
+
 <p align="center">
- <em>Built with 💖 by someone who hates broken monitoring.</em><br>
-  <a href="https://github.com/To3Knee/vm-probe/stargazers"><img src="https://img.shields.io/github/stars/To3Knee/vm-probe?style=social" alt="GitHub Stars"></a>
- </p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <em>Built with 💖 by someone who hates broken monitoring.</em>
+</p>
+```
