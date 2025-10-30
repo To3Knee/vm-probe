@@ -209,6 +209,9 @@ sudo dnf install -y open-vm-tools
 # RHEL 7/8/9  KVM
 sudo dnf install -y qemu-guest-agent
 
+# Install jq (for JSON parsing)
+sudo dnf install -y jq
+
 # Enable
 sudo systemctl enable --now vmtoolsd  # VMware
 sudo systemctl enable --now qemu-guest-agent  # KVM
@@ -444,6 +447,7 @@ If it runs in production, **tell your boss**
 <p align="center">
   <em>Built with 💖 by someone who hates broken monitoring.</em>
 </p>
+
 
 
 
