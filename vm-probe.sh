@@ -26,8 +26,9 @@
 #     host (esxi_hostname, vcenter), network, timestamp
 #
 # REQUIREMENTS
-#   • open-vm-tools (VMware)
+#   • open-vm-tools (VMware) — latest version
 #   • qemu-guest-agent (KVM)
+#   • jq (for VMware raw JSON parsing)
 #   • standard GNU tools
 #
 # SAFETY
@@ -143,14 +144,17 @@ else
     POWER_STATE="Running"
 fi
 
-# ---------- 5. Tool state + Uptime ----------
-if [[ "$IS_VMWARE" = "true" ]] && systemctl is-active vmtoolsd &>/dev/null; then
-    TOOL_STATE=$(vmware-toolbox-cmd stat current 2>/dev/null | awk -F'=' '/tool state/ {print $2}' | xargs || echo "unknown")
-    UPTIME_SEC=$(vmware-toolbox-cmd stat current 2>/dev/null | awk -F'=' '/uptime/ {print $2}' | xargs || echo "0")
-    MEM_MB=$(vmware-toolbox-cmd stat memsize 2>/dev/null | awk '{print $1}' || echo "0")
+# ---------- 5. Tool state + Uptime + Memory (FIXED FOR OPEN-VM-TOOLS 12+) ----------
+if [[ "$IS_VMWARE" = "true" ]] && systemctl is-active vmtoolsd &>/dev/null && command -v jq &>/dev/null; then
+    # Use raw JSON output (new format)
+    RAW_JSON=$(vmware-toolbox-cmd stat raw json 2>/dev/null || echo "{}")
+    
+    TOOL_STATE=$(echo "$RAW_JSON" | jq -r '.session.status // "unknown"' 2>/dev/null || echo "unknown")
+    UPTIME_SEC=$(echo "$RAW_JSON" | jq -r '.session.uptime // 0' 2>/dev/null || echo "0")
+    MEM_MB=$(echo "$RAW_JSON" | jq -r '.resources.memory.limit // 0' 2>/dev/null || echo "0")
 else
     TOOL_STATE="qemu-guest-agent"
-    UPTIME_SEC=$(awk '{print int($1)}' /proc/uptime 2>/dev/null || echo "0")
+    UPTIME_SEC=$(awk '{print int($1)}' /proc/uptime)
     MEM_MB="0"
 fi
 
@@ -172,7 +176,7 @@ DISK_USED="${used%G} GB"
 DISK_AVAIL="${avail%G} GB"
 DISK_PCT="${pct%%%}"
 
-# ---------- 8. Disk: Provisioned size (FIXED: Safe lsblk) ----------
+# ---------- 8. Disk: Provisioned size (FIXED FOR sda/vda) ----------
 ROOT_DEV=$(df --output=source "$ROOT_MOUNT_POINT" 2>/dev/null | awk 'NR==2')
 BASE_DEV=$(lsblk -no PKNAME "$ROOT_DEV" 2>/dev/null | head -1)
 [[ -z "$BASE_DEV" ]] && BASE_DEV=$(lsblk -no NAME "$ROOT_DEV" 2>/dev/null | head -1)
@@ -190,18 +194,18 @@ RAM_PCT=$(free -m | awk '/Mem:/ {if($2>0) printf "%.1f", $3/$2*100; else print "
 CPU_IDLE=$(vmstat 1 2 2>/dev/null | tail -1 | awk '{print $15}' || echo "100")
 CPU_UTIL=$(awk "BEGIN {printf \"%.1f\", 100 - $CPU_IDLE}")
 
-# ---------- 11. CPU Ready (FIXED: KVM = N/A) ----------
-if [[ "$IS_VMWARE" = "true" ]] && systemctl is-active vmtoolsd &>/dev/null; then
-    CPU_READY=$(vmware-toolbox-cmd stat cpu 2>/dev/null | awk '/ready/ {gsub(/%/,"",$2); print $2}' || echo "0")
+# ---------- 11. CPU Ready (FIXED: Use raw JSON) ----------
+if [[ "$IS_VMWARE" = "true" ]] && systemctl is-active vmtoolsd &>/dev/null && command -v jq &>/dev/null; then
+    CPU_READY=$(echo "$RAW_JSON" | jq -r '."cpu.ready.summation" // 0' 2>/dev/null || echo "0")
     [[ "$CPU_READY" =~ ^[0-9]+(\.[0-9]+)?$ ]] && CPU_READY_HUMAN="${CPU_READY}%" || CPU_READY_HUMAN="N/A"
 else
     CPU_READY_HUMAN="N/A"
 fi
 
-# ---------- 12. Host ----------
+# ---------- 12. Host (FIXED: Filter "No value found") ----------
 if [[ "$IS_VMWARE" = "true" ]] && systemctl is-active vmtoolsd &>/dev/null; then
-    HOST=$(vmware-rpctool "info-get guestinfo.vpx.vmhost" 2>/dev/null || echo "unknown")
-    VCENTER=$(vmware-rpctool "info-get guestinfo.vpx.server" 2>/dev/null || echo "unknown")
+    HOST=$(vmware-rpctool "info-get guestinfo.vpx.vmhost" 2>/dev/null | grep -v "No value found" || echo "unknown")
+    VCENTER=$(vmware-rpctool "info-get guestinfo.vpx.server" 2>/dev/null | grep -v "No value found" || echo "unknown")
 else
     HOST="KVM Host"
     VCENTER="N/A"
@@ -211,7 +215,7 @@ fi
 format_bits() {
     local b=$1
     ((b >= 1000000000)) && printf "%.2f Gbit/s" "$(awk "BEGIN{print $b/1000000000}")" && return
-    ((b >= 1000000)) && printf "%.2f Mbit/s" "$(awk "BEGIN{print $b/1000000}")" && return
+    ((b >= 1000000)) && printf "%.2f Mbit/s" "$(awk "BEGIN{print $b/1000000000}")" && return
     ((b >= 1000)) && printf "%.2f kbit/s" "$(awk "BEGIN{print $b/1000}")" && return
     printf "%d bit/s" "$b"
 }
